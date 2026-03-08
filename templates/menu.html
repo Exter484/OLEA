@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menu | OLEA Artisanal Dining</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body class="menu-page">
+
+    <!-- Navigation -->
+    <nav>
+        <div class="logo">
+            <a href="{{ url_for('index') }}">
+                <i class="fa-solid fa-utensils"></i> OLEA
+            </a>
+        </div>
+        <ul class="nav-links" id="navLinks">
+            <li><a href="{{ url_for('index') }}#home">Home</a></li>
+            <li><a href="{{ url_for('menu') }}" class="active">Menu</a></li>
+            <li><a href="{{ url_for('about') }}">About</a></li>
+            <li><a href="{{ url_for('index') }}#reservations">Reservations</a></li>
+        </ul>
+        <div class="nav-actions">
+            <a href="{{ url_for('index') }}#reservations" class="btn-book">Book Now</a>
+            <button class="mobile-menu-btn" id="mobileMenuBtn">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Menu Hero -->
+    <section class="menu-hero">
+        <div class="hero-content">
+            <span>The Palette</span>
+            <h1>Our Menu</h1>
+            <p>A curated selection of Mediterranean flavors, crafted with artisanal precision.</p>
+        </div>
+    </section>
+
+    <!-- Menu Content -->
+    <main class="menu-container">
+
+        <!-- Food Section -->
+        <section class="menu-section-detail">
+            <div class="category-header">
+                <h2>Culinaries</h2>
+                <div class="category-tabs">
+                    <button class="tab-btn active" data-category="all">All</button>
+                    <button class="tab-btn" data-category="appetizers">Appetizers</button>
+                    <button class="tab-btn" data-category="mains">Mains</button>
+                    <button class="tab-btn" data-category="desserts">Desserts</button>
+                </div>
+            </div>
+
+            <div class="menu-grid" id="foodGrid">
+                <!-- Appetizers -->
+                <div class="menu-item-card" data-category="appetizers">
+                    <div class="item-info">
+                        <h3>Wild Mushroom Arancini</h3>
+                        <p>Truffle essence, parmesan cream, crispy sage.</p>
+                    </div>
+                    <span class="price">฿320</span>
+                </div>
+                <div class="menu-item-card" data-category="appetizers">
+                    <div class="item-info">
+                        <h3>Burrata & Heirloom Tomatoes</h3>
+                        <p>Basil oil, 12-year aged balsamic, toasted sourdough.</p>
+                    </div>
+                    <span class="price">฿380</span>
+                </div>
+                <div class="menu-item-card" data-category="appetizers">
+                    <div class="item-info">
+                        <h3>Grilled Octopus</h3>
+                        <p>Romesco sauce, baby potatoes, smoked paprika, lemon oil.</p>
+                    </div>
+                    <span class="price">฿450</span>
+                </div>
+                <div class="menu-item-card" data-category="appetizers">
+                    <div class="item-info">
+                        <h3>Beef Carpaccio</h3>
+                        <p>Wild rocket, capers, mustard dressing, shaved truffle.</p>
+                    </div>
+                    <span class="price">฿420</span>
+                </div>
+                <div class="menu-item-card" data-category="appetizers">
+                    <div class="item-info">
+                        <h3>Crispy Zucchini Blossoms</h3>
+                        <p>Whipped ricotta stuffing, organic honey lemon drizzle.</p>
+                    </div>
+                    <span class="price">฿350</span>
+                </div>
+
+                <!-- Mains -->
+                <div class="menu-item-card" data-category="mains">
+                    <div class="item-info">
+                        <h3>Wild Mushroom Risotto</h3>
+                        <p>Truffle oil, aged parmesan, locally foraged forest mushrooms.</p>
+                    </div>
+                    <span class="price">฿450</span>
+                </div>
+                <div class="menu-item-card" data-category="mains">
+                    <div class="item-info">
+                        <h3>Seared Scallops</h3>
+                        <p>Pea purée, crispy pancetta, and citrus herb butter reduction.</p>
+                    </div>
+                    <span class="price">฿620</span>
+                </div>
+                <div class="menu-item-card" data-category="mains">
+                    <div class="item-info">
+                        <h3>Hand-Cut Tagliatelle</h3>
+                        <p>Slow-roasted heirloom tomatoes, fresh basil, and buffalo mozzarella.</p>
+                    </div>
+                    <span class="price">฿380</span>
+                </div>
+                <div class="menu-item-card" data-category="mains">
+                    <div class="item-info">
+                        <h3>Pan-Seared Sea Bass</h3>
+                        <p>Lemon butter sauce, capers, grilled asparagus, dill.</p>
+                    </div>
+                    <span class="price">฿680</span>
+                </div>
+                <div class="menu-item-card" data-category="mains">
+                    <div class="item-info">
+                        <h3>Braised Wagyu Short Rib</h3>
+                        <p>48-hour slow braise, red wine reduction, creamy polenta.</p>
+                    </div>
+                    <span class="price">฿850</span>
+                </div>
+                <div class="menu-item-card" data-category="mains">
+                    <div class="item-info">
+                        <h3>Herb-Crusted Lamb Rack</h3>
+                        <p>Mint pesto, roasted root vegetables, rosemary jus.</p>
+                    </div>
+                    <span class="price">฿920</span>
+                </div>
+                <div class="menu-item-card" data-category="mains">
+                    <div class="item-info">
+                        <h3>Lobster Linguine</h3>
+                        <p>Chili, garlic, cherry tomatoes, fresh parsley, bisque base.</p>
+                    </div>
+                    <span class="price">฿1,200</span>
+                </div>
+
+                <!-- Desserts -->
+                <div class="menu-item-card" data-category="desserts">
+                    <div class="item-info">
+                        <h3>Dark Chocolate Ganache Tart</h3>
+                        <p>Maldon sea salt, vanilla bean crème fraîche.</p>
+                    </div>
+                    <span class="price">฿320</span>
+                </div>
+                <div class="menu-item-card" data-category="desserts">
+                    <div class="item-info">
+                        <h3>Tiramisu Classico</h3>
+                        <p>Espresso-soaked ladyfingers, velvety mascarpone cream.</p>
+                    </div>
+                    <span class="price">฿280</span>
+                </div>
+                <div class="menu-item-card" data-category="desserts">
+                    <div class="item-info">
+                        <h3>Lemon Sorbet & Prosecco</h3>
+                        <p>Refreshing citrus sorbet topped with chilled bubbly.</p>
+                    </div>
+                    <span class="price">฿250</span>
+                </div>
+            </div>
+        </section>
+
+        <hr class="menu-separator">
+
+        <!-- Drinks Section -->
+        <section class="menu-section-detail">
+            <div class="category-header">
+                <h2>Libations</h2>
+                <div class="category-tabs">
+                    <button class="tab-btn-drinks active" data-category="all">All</button>
+                    <button class="tab-btn-drinks" data-category="cocktails">Signatures</button>
+                    <button class="tab-btn-drinks" data-category="non-alcoholic">Non-Alcoholic</button>
+                </div>
+            </div>
+
+            <div class="menu-grid" id="drinksGrid">
+                <!-- Cocktails -->
+                <div class="menu-item-card" data-category="cocktails">
+                    <div class="item-info">
+                        <h3>Olea Martini</h3>
+                        <p>Olive-infused gin, dry vermouth, herbal bitters.</p>
+                    </div>
+                    <span class="price">฿380</span>
+                </div>
+                <div class="menu-item-card" data-category="cocktails">
+                    <div class="item-info">
+                        <h3>Mediterranean Mule</h3>
+                        <p>Small-batch vodka, fresh ginger, lime, rosemary sprig.</p>
+                    </div>
+                    <span class="price">฿350</span>
+                </div>
+                <div class="menu-item-card" data-category="cocktails">
+                    <div class="item-info">
+                        <h3>Lavender Spritz</h3>
+                        <p>Prosecco, home-made lavender syrup, soda, lemon twist.</p>
+                    </div>
+                    <span class="price">฿320</span>
+                </div>
+                <div class="menu-item-card" data-category="cocktails">
+                    <div class="item-info">
+                        <h3>Blood Orange Negroni</h3>
+                        <p>Botanical gin, Campari, blood orange reduction, sweet vermouth.</p>
+                    </div>
+                    <span class="price">฿380</span>
+                </div>
+                <div class="menu-item-card" data-category="cocktails">
+                    <div class="item-info">
+                        <h3>Smoked Thyme Paloma</h3>
+                        <p>Reposado tequila, fresh grapefruit, lime, smoked thyme bouquet.</p>
+                    </div>
+                    <span class="price">฿360</span>
+                </div>
+                <div class="menu-item-card" data-category="cocktails">
+                    <div class="item-info">
+                        <h3>Basil Smash</h3>
+                        <p>Gin, fresh garden basil, simple syrup, zesty lemon.</p>
+                    </div>
+                    <span class="price">฿340</span>
+                </div>
+
+                <!-- Non-Alcoholic -->
+                <div class="menu-item-card" data-category="non-alcoholic">
+                    <div class="item-info">
+                        <h3>Cucumber Mint Cooler</h3>
+                        <p>Pressed cucumber, garden mint, sparkling soda.</p>
+                    </div>
+                    <span class="price">฿180</span>
+                </div>
+                <div class="menu-item-card" data-category="non-alcoholic">
+                    <div class="item-info">
+                        <h3>Pomegranate & Rosemary Elixir</h3>
+                        <p>Fresh pomegranate juice, rosemary syrup, premium tonic.</p>
+                    </div>
+                    <span class="price">฿220</span>
+                </div>
+                <div class="menu-item-card" data-category="non-alcoholic">
+                    <div class="item-info">
+                        <h3>Artisanal Iced Coffee</h3>
+                        <p>Slow-brewed Ethiopian beans, vanilla bean cream.</p>
+                    </div>
+                    <span class="price">฿160</span>
+                </div>
+                <div class="menu-item-card" data-category="non-alcoholic">
+                    <div class="item-info">
+                        <h3>Sparkling Lavender Lemonade</h3>
+                        <p>Freshly squeezed lemons, organic lavender, fine bubbles.</p>
+                    </div>
+                    <span class="price">฿150</span>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-logo">
+                <i class="fas fa-utensils"></i> OLEA
+            </div>
+            <p>1994 Artisanal Minimalist Dining. <br> Crafted with passion, served with excellence.</p>
+            <div class="social-links">
+                <a href="#"><i class="fab fa-instagram"></i></a>
+                <a href="#"><i class="fab fa-facebook"></i></a>
+                <a href="#"><i class="fab fa-twitter"></i></a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 OLEA Restaurant. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+    <script>
+        // Simple smoothing for category filtering
+        document.querySelectorAll('.tab-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const category = btn.dataset.category;
+
+                // Update active tab
+                document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+
+                // Filter items
+                document.querySelectorAll('#foodGrid .menu-item-card').forEach(item => {
+                    if (category === 'all' || item.dataset.category === category) {
+                        item.style.display = 'flex';
+                        item.style.opacity = '0';
+                        setTimeout(() => {
+                            item.style.opacity = '1';
+                        }, 50);
+                    } else {
+                        item.style.display = 'none';
+                    }
+                });
+            });
+        });
+
+        document.querySelectorAll('.tab-btn-drinks').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const category = btn.dataset.category;
+
+                // Update active tab
+                document.querySelectorAll('.tab-btn-drinks').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+
+                // Filter items
+                document.querySelectorAll('#drinksGrid .menu-item-card').forEach(item => {
+                    if (category === 'all' || item.dataset.category === category) {
+                        item.style.display = 'flex';
+                        item.style.opacity = '0';
+                        setTimeout(() => {
+                            item.style.opacity = '1';
+                        }, 50);
+                    } else {
+                        item.style.display = 'none';
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OLEA | Artisanal Minimalist Dining</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+
+    <!-- Flash Messages -->
+    <div class="flash-messages">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+        {% for category, message in messages %}
+        <div class="flash {{ category }}">{{ message }}</div>
+        {% endfor %}
+        {% endif %}
+        {% endwith %}
+    </div>
+
+    <!-- Navigation -->
+    <nav>
+        <div class="logo">
+            <a href="{{ url_for('index') }}"><i class="fa-solid fa-utensils"></i> OLEA</a>
+        </div>
+        <ul class="nav-links" id="navLinks">
+            <li><a href="#home">Home</a></li>
+            <li><a href="{{ url_for('menu') }}">Menu</a></li>
+            <li><a href="{{ url_for('about') }}">About</a></li>
+            <li><a href="#reservations">Reservations</a></li>
+        </ul>
+        <div class="nav-actions">
+            <a href="#reservations" class="btn-book">Book Now</a>
+            <button class="mobile-menu-btn" id="mobileMenuBtn">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <span>Since 1994</span>
+        <h1>Artisanal <br> Minimalist Dining</h1>
+        <p>Experience the essence of pure flavors in a refined atmosphere where every ingredient tells a story.</p>
+        <div class="hero-btns">
+            <a href="{{ url_for('menu') }}" class="btn-book">View Menu</a>
+            <a href="#reservations" class="btn-outline">Reserve Table</a>
+        </div>
+    </section>
+
+    <!-- About / Our Story Section -->
+    <section id="about" class="about-section">
+        <div class="about-container">
+            <div class="about-image-wrapper">
+                <img src="{{ url_for('static', filename='images/chef.png') }}" alt="Chef Elena Voce"
+                    class="main-about-img">
+                <div class="image-accent"></div>
+            </div>
+            <div class="about-content">
+                <span class="subtitle">Our Story</span>
+                <h2>Crafting Culinary Excellence Through Simplicity</h2>
+                <div class="about-text">
+                    <p>Founded on the principles of seasonality and restraint, Chef Elena Voce brings a modern
+                        Mediterranean
+                        vision to the heart of the city. We believe that true luxury lies in the quality of raw
+                        ingredients
+                        and the precision of their preparation.</p>
+                    <p>Every plate at Olea is a canvas of culinary heritage, reimagined for the contemporary palate. We
+                        source exclusively from local regenerative farms and artisanal producers.</p>
+                </div>
+
+                <div class="about-footer">
+                    <div class="sketch-card">
+                        <img src="{{ url_for('static', filename='images/sketch.png') }}" alt="Artisanal Sketch">
+                        <div class="sketch-info">
+                            <span class="signature">Chef Elena</span>
+                            <span class="role">Executive Chef</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Menu Section -->
+    <section id="menu" class="menu-section">
+        <div class="section-title">
+            <span>The Palette</span>
+            <h2>Featured Creations</h2>
+        </div>
+
+        <div class="menu-slider-wrapper">
+            <button class="slider-btn prev" id="menu-prev"><i class="fas fa-chevron-left"></i></button>
+            <div class="menu-slider" id="menu-slider">
+                <!-- Original Items -->
+                <div class="menu-card">
+                    <img src="https://images.unsplash.com/photo-1476124369491-e7addf5db371?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                        alt="Wild Mushroom Risotto">
+                    <div class="menu-card-content">
+                        <div class="menu-card-header">
+                            <h3>Wild Mushroom Risotto</h3>
+                            <span class="price">฿450</span>
+                        </div>
+                        <p>Truffle oil, aged parmesan, and locally foraged forest mushrooms.</p>
+                    </div>
+                </div>
+
+                <div class="menu-card">
+                    <img src="{{ url_for('static', filename='images/scallops.png') }}" alt="Seared Scallops">
+                    <div class="menu-card-content">
+                        <div class="menu-card-header">
+                            <h3>Seared Scallops</h3>
+                            <span class="price">฿620</span>
+                        </div>
+                        <p>Pea purée, crispy pancetta, and citrus herb butter reduction.</p>
+                    </div>
+                </div>
+
+                <div class="menu-card">
+                    <img src="https://images.unsplash.com/photo-1551183053-bf91a1d81141?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                        alt="Hand-Cut Tagliatelle">
+                    <div class="menu-card-content">
+                        <div class="menu-card-header">
+                            <h3>Hand-Cut Tagliatelle</h3>
+                            <span class="price">฿380</span>
+                        </div>
+                        <p>Slow-roasted heirloom tomatoes, fresh basil, and buffalo mozzarella.</p>
+                    </div>
+                </div>
+
+                <div class="menu-card">
+                    <img src="https://images.unsplash.com/photo-1536599424071-0b215a388ba7?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                        alt="Olive Oil Cake">
+                    <div class="menu-card-content">
+                        <div class="menu-card-header">
+                            <h3>Olive Oil Cake</h3>
+                            <span class="price">฿280</span>
+                        </div>
+                        <p>Rosemary-infused citrus, whipped mascarpone, and honey drizzle.</p>
+                    </div>
+                </div>
+
+                <!-- New Items -->
+                <div class="menu-card">
+                    <img src="{{ url_for('static', filename='images/wagyu.png') }}" alt="Braised Wagyu Short Rib">
+                    <div class="menu-card-content">
+                        <div class="menu-card-header">
+                            <h3>Braised Wagyu Short Rib</h3>
+                            <span class="price">฿850</span>
+                        </div>
+                        <p>Slow-braised Wagyu, red wine reduction, and silky parsnip purée.</p>
+                    </div>
+                </div>
+
+                <div class="menu-card">
+                    <img src="{{ url_for('static', filename='images/polenta.png') }}" alt="Truffle Polenta">
+                    <div class="menu-card-content">
+                        <div class="menu-card-header">
+                            <h3>Truffle Infused Polenta</h3>
+                            <span class="price">฿420</span>
+                        </div>
+                        <p>Creamy golden polenta, fresh black truffle shavings, and artisanal olive oil.</p>
+                    </div>
+                </div>
+
+                <div class="menu-card">
+                    <img src="{{ url_for('static', filename='images/risotto.png') }}" alt="Saffron Risotto">
+                    <div class="menu-card-content">
+                        <div class="menu-card-header">
+                            <h3>Saffron Risotto & Prawns</h3>
+                            <span class="price">฿580</span>
+                        </div>
+                        <p>Vibrant saffron-infused risotto topped with pan-seared jumbo prawns.</p>
+                    </div>
+                </div>
+
+                <div class="menu-card">
+                    <img src="{{ url_for('static', filename='images/chocolate_tart.png') }}" alt="Chocolate Tart">
+                    <div class="menu-card-content">
+                        <div class="menu-card-header">
+                            <h3>Dark Chocolate Ganache</h3>
+                            <span class="price">฿320</span>
+                        </div>
+                        <p>Decadent cocoa crust, Maldon sea salt, and vanilla bean crème fraîche.</p>
+                    </div>
+                </div>
+
+                <div class="menu-card">
+                    <img src="{{ url_for('static', filename='images/beet_salad.png') }}" alt="Beetroot Salad">
+                    <div class="menu-card-content">
+                        <div class="menu-card-header">
+                            <h3>Roasted Beetroot Salad</h3>
+                            <span class="price">฿350</span>
+                        </div>
+                        <p>Goat cheese, toasted walnuts, and a honey-balsamic glaze.</p>
+                    </div>
+                </div>
+            </div>
+            <button class="slider-btn next" id="menu-next"><i class="fas fa-chevron-right"></i></button>
+        </div>
+
+        <div class="explore-more">
+            <a href="{{ url_for('menu') }}" class="btn-text">Explore Full Menu <i class="fas fa-arrow-right"></i></a>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="testimonials-section reveal">
+        <div class="testimonial-content">
+            <div class="stars">
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+            </div>
+            <p class="testimonial-quote">
+                "An absolute masterclass in minimalism. Every dish at Olea is a revelation of flavor. The atmosphere is
+                serene, and the service is impeccably discreet."
+            </p>
+            <div class="testimonial-author">
+                <span class="author-name">Julian Thorne</span>
+                <span class="author-title">Culinary Critic, The Modern Palate</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Atmosphere Experience Section -->
+    <section id="experience" class="atmosphere-section reveal">
+        <div class="gallery-header">
+            <div>
+                <span
+                    style="color: var(--primary-color); text-transform: uppercase; letter-spacing: 3px; font-size: 0.9rem; font-weight: 600;">Atmosphere</span>
+                <h2 style="font-size: 3rem; margin-top: 0.5rem;">The Olea Experience</h2>
+            </div>
+            <div class="gallery-nav">
+                <div class="nav-circle"><i class="fas fa-chevron-left"></i></div>
+                <div class="nav-circle"><i class="fas fa-chevron-right"></i></div>
+            </div>
+        </div>
+
+        <div class="gallery-grid">
+            <div class="gallery-item span-2">
+                <img src="{{ url_for('static', filename='images/interior.png') }}" alt="Olea Interior">
+            </div>
+            <div class="gallery-item">
+                <img src="{{ url_for('static', filename='images/cocktail.png') }}" alt="Artisanal Cocktail">
+            </div>
+            <div class="gallery-item">
+                <img src="{{ url_for('static', filename='images/wine_cellar.png') }}" alt="Wine Cellar">
+            </div>
+            <div class="gallery-item">
+                <img src="{{ url_for('static', filename='images/sourdough.png') }}" alt="Artisanal Sourdough">
+            </div>
+            <div class="gallery-item">
+                <img src="{{ url_for('static', filename='images/plating.png') }}" alt="Chef Plating">
+            </div>
+        </div>
+    </section>
+
+    <!-- Reservation Section -->
+    <section id="reservations">
+        <div class="section-title">
+            <span>Experience OLEA</span>
+            <h2>Table Reservation</h2>
+        </div>
+        <div class="reservation-container">
+            <form action="{{ url_for('reserve') }}" method="POST">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="name">Full Name</label>
+                        <input type="text" id="name" name="name" placeholder="John Doe" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email Address</label>
+                        <input type="email" id="email" name="email" placeholder="john@example.com" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="phone">Phone Number</label>
+                        <input type="tel" id="phone" name="phone" placeholder="012-345-6789" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="date">Date</label>
+                        <input type="date" id="date" name="date" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="time">Time</label>
+                        <select id="time" name="time" required>
+                            <option value="" disabled selected>Select Time</option>
+                            <option value="17:00">17:00</option>
+                            <option value="18:00">18:00</option>
+                            <option value="19:00">19:00</option>
+                            <option value="20:00">20:00</option>
+                            <option value="21:00">21:00</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="guests">Number of Guests</label>
+                        <input type="number" id="guests" name="guests" min="1" max="10" value="2" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="duration">Duration (Hours)</label>
+                        <select id="duration" name="duration" required>
+                            <option value="1" selected>1 Hour</option>
+                            <option value="2">2 Hours</option>
+                            <option value="3">3 Hours</option>
+                            <option value="4">4 Hours</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="table_number">Table Selection</label>
+                        <select id="table_number" name="table_number" required disabled>
+                            <option value="" disabled selected>Choose Date & Time first</option>
+                            <option value="Table 1">Table 1</option>
+                            <option value="Table 2">Table 2</option>
+                            <option value="Table 3">Table 3</option>
+                            <option value="Table 4">Table 4</option>
+                            <option value="Table 5">Table 5</option>
+                            <option value="Table 6">Table 6</option>
+                            <option value="Table 7">Table 7</option>
+                            <option value="Table 8">Table 8</option>
+                            <option value="Meeting Room">Meeting Room</option>
+                        </select>
+                    </div>
+                    <div id="availability-status"
+                        style="grid-column: span 2; font-size: 0.85rem; padding: 10px; border-radius: 4px; display: none;">
+                    </div>
+                    <div class="form-group full">
+                        <label for="message">Special Requests (Optional)</label>
+                        <textarea id="message" name="message" rows="3" placeholder="Allergies, birthday..."></textarea>
+                    </div>
+                    <button type="submit" class="btn-submit">Confirm Reservation</button>
+                </div>
+            </form>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2026 OLEA Artisanal Dining. All Rights Reserved.</p>
+    </footer>
+
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+
+</html>

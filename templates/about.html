@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About OLEA | Artisanal Minimalist Dining</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap"
+        rel="stylesheet">
+    <style>
+        .about-page nav {
+            background: rgba(0, 0, 0, 0.9);
+            border-bottom: 1px solid var(--glass-border);
+        }
+
+        .about-hero {
+            height: 70vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(10, 10, 10, 1)), url('/static/images/about-hero.png') center/cover no-repeat;
+            padding: 0 5%;
+            opacity: 1 !important;
+            transform: translateY(0) !important;
+        }
+
+        .about-content-section {
+            padding: 8rem 10%;
+            background: var(--bg-dark);
+        }
+
+        .philosophy-grid {
+            display: grid;
+            grid-template-columns: 1.2fr 1fr;
+            gap: 6rem;
+            align-items: center;
+        }
+
+        .philosophy-image img {
+            width: 100%;
+            border-radius: 12px;
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6);
+            border: 1px solid var(--glass-border);
+        }
+
+        .narrative-block {
+            max-width: 650px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .narrative-block h2 {
+            font-size: 3.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .narrative-block p {
+            font-size: 1.15rem;
+            line-height: 1.8;
+            color: var(--text-muted);
+            margin-bottom: 2rem;
+        }
+
+        .values-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 3rem;
+            margin-top: 5rem;
+        }
+
+        .value-card {
+            background: var(--glass-bg);
+            padding: 3rem 2rem;
+            border-radius: 12px;
+            border: 1px solid var(--glass-border);
+            text-align: center;
+            transition: var(--transition);
+        }
+
+        .value-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--primary-color);
+        }
+
+        .value-card i {
+            font-size: 2rem;
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+        }
+
+        .value-card h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .dual-accent-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            background: #050505;
+        }
+
+        .dual-accent-content {
+            padding: 8rem 15%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .dual-accent-image {
+            background: url('/static/images/interior-detail.png') center/cover no-repeat;
+            min-height: 600px;
+        }
+
+        @media (max-width: 992px) {
+
+            .philosophy-grid,
+            .values-grid,
+            .dual-accent-section {
+                grid-template-columns: 1fr;
+            }
+
+            .dual-accent-image {
+                min-height: 400px;
+                order: -1;
+            }
+        }
+    </style>
+</head>
+
+<body class="about-page">
+    <!-- Navbar -->
+    <nav>
+        <div class="logo">
+            <a href="{{ url_for('index') }}"><i class="fa-solid fa-utensils"></i> OLEA</a>
+        </div>
+        <ul class="nav-links" id="navLinks">
+            <li><a href="{{ url_for('index') }}#home">Home</a></li>
+            <li><a href="{{ url_for('menu') }}">Menu</a></li>
+            <li><a href="{{ url_for('about') }}" class="active">About</a></li>
+            <li><a href="{{ url_for('index') }}#reservations">Reservations</a></li>
+        </ul>
+        <div class="nav-actions">
+            <a href="{{ url_for('index') }}#reservations" class="btn-book">Book Now</a>
+            <button class="mobile-menu-btn" id="mobileMenuBtn">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Hero -->
+    <section class="about-hero">
+        <div class="hero-content">
+            <span class="subtitle"
+                style="color: var(--primary-color); text-transform: uppercase; letter-spacing: 4px; font-weight: 700;">The
+                Olea Story</span>
+            <h1 style="font-size: 4.5rem; margin: 1rem 0;">A Legacy of <br> Purity & Passion</h1>
+            <p style="font-style: italic; font-size: 1.25rem;">Crafting moments of culinary serenity since 1994.</p>
+        </div>
+    </section>
+
+    <!-- The Philosophy -->
+    <section class="about-content-section reveal">
+        <div class="philosophy-grid">
+            <div class="philosophy-content">
+                <span class="subtitle"
+                    style="color: var(--primary-color); text-transform: uppercase; letter-spacing: 3px; font-size: 0.9rem; font-weight: 600;">Our
+                    Philosophy</span>
+                <h2 style="font-size: 3rem; margin: 1rem 0; font-family: 'Playfair Display', serif;">Elegance in Every
+                    <br> Ingredient
+                </h2>
+                <p style="color: var(--text-muted); line-height: 1.8; font-size: 1.1rem; margin-bottom: 2rem;">
+                    At OLEA, we believe that true luxury lies in simplicity. Our journey began with a single mission: to
+                    strip away the unnecessary and celebrate the inherent beauty of Mediterranean ingredients in their
+                    purest form.
+                </p>
+                <p style="color: var(--text-muted); line-height: 1.8; font-size: 1.1rem;">
+                    We partner with local artisans and sustainable producers to source everything from cold-pressed oils
+                    to hand-foraged herbs, ensuring that every plate reflects our commitment to the earth and the craft.
+                </p>
+            </div>
+            <div class="philosophy-image">
+                <img src="/static/images/philosophy.png" alt="Nature's Canvas">
+            </div>
+        </div>
+
+        <div class="values-grid">
+            <div class="value-card">
+                <i class="fas fa-seedling"></i>
+                <h3>Purity</h3>
+                <p>Unaltered flavors that respect the integrity of the harvest.</p>
+            </div>
+            <div class="value-card">
+                <i class="fas fa-hand-holding-heart"></i>
+                <h3>Craft</h3>
+                <p>Artisanal techniques refined over three decades of dedication.</p>
+            </div>
+            <div class="value-card">
+                <i class="fas fa-Infinity"></i>
+                <h3>Harmony</h3>
+                <p>A seamless blend of minimalist design and soulful cuisine.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Narrative Block -->
+    <section class="about-content-section" style="background: #050505;">
+        <div class="narrative-block reveal">
+            <span class="subtitle"
+                style="color: var(--primary-color); text-transform: uppercase; letter-spacing: 3px; font-size: 0.9rem; font-weight: 600;">The
+                Vision</span>
+            <h2 style="font-family: 'Playfair Display', serif;">Artisanal Space</h2>
+            <p>
+                Our restaurant is more than a place to dine; it is a sanctuary designed to quiet the mind and awaken the
+                senses. Every texture, from the hand-carved wood to the smooth stone surfaces, was chosen to evoke the
+                rugged yet refined beauty of the Mediterranean coastline.
+            </p>
+        </div>
+    </section>
+
+    <!-- Dual Accent Section -->
+    <section class="dual-accent-section reveal">
+        <div class="dual-accent-image"></div>
+        <div class="dual-accent-content">
+            <span class="subtitle"
+                style="color: var(--primary-color); text-transform: uppercase; letter-spacing: 3px; font-size: 0.9rem; font-weight: 600;">The
+                Experience</span>
+            <h2 style="font-size: 3rem; margin: 1rem 0; font-family: 'Playfair Display', serif;">A Journey Beyond <br>
+                The Plate</h2>
+            <p style="color: var(--text-muted); line-height: 1.8; font-size: 1.1rem;">
+                From the moment you cross our threshold, you are invited into a world of curated tranquility. Our
+                minimalist interior serves as a blank canvas where the vibrant colors of our dishes and the richness of
+                our wines can truly shine.
+            </p>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer
+        style="padding: 5rem 10%; background: #0a0a0a; border-top: 1px solid var(--glass-border); text-align: center;">
+        <div class="footer-logo"
+            style="margin-bottom: 2rem; font-size: 1.8rem; font-weight: 700; font-family: 'Playfair Display', serif;">
+            <i class="fa-solid fa-utensils"></i> OLEA
+        </div>
+        <p style="color: var(--text-muted); max-width: 600px; margin: 0 auto 2rem;">
+            1994 Artisanal Minimalist Dining. <br>
+            Crafted with passion, served with excellence.
+        </p>
+        <div class="social-links"
+            style="display: flex; justify-content: center; gap: 1.5rem; font-size: 1.2rem; margin-bottom: 3rem;">
+            <a href="#" style="color: white;"><i class="fab fa-instagram"></i></a>
+            <a href="#" style="color: white;"><i class="fab fa-facebook-f"></i></a>
+            <a href="#" style="color: white;"><i class="fab fa-twitter"></i></a>
+        </div>
+        <p style="font-size: 0.8rem; opacity: 0.5;">&copy; 2026 OLEA Restaurant. All rights reserved.</p>
+    </footer>
+
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+
+</html>
