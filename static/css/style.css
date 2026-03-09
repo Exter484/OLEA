@@ -339,14 +339,15 @@ section.reveal {
     max-width: 1264px;
     margin: 0 auto;
     padding: 0;
+    width: 100%;
 }
 
 .menu-slider {
-    width: 1263px;
+    width: 100%;
     margin: 0 auto;
     display: flex;
     gap: 32px;
-    overflow: hidden;
+    overflow-x: auto;
     scroll-behavior: smooth;
     scrollbar-width: none;
     /* Firefox */
@@ -741,7 +742,16 @@ footer {
 /* Media Queries */
 @media (max-width: 1200px) {
     .menu-slider-wrapper {
-        max-width: 950px;
+        max-width: 100%;
+        padding: 0 5%;
+    }
+
+    .slider-btn.prev {
+        left: 0;
+    }
+
+    .slider-btn.next {
+        right: 0;
     }
 }
 
@@ -798,6 +808,23 @@ footer {
     .mobile-menu-btn {
         display: flex !important;
         z-index: 1001;
+    }
+
+    .menu-section {
+        padding: 5rem 5% 3rem 5%;
+    }
+
+    .menu-card {
+        flex: 0 0 85%;
+        max-width: 350px;
+    }
+
+    .slider-btn {
+        display: none;
+    }
+
+    .menu-slider {
+        gap: 16px;
     }
 
     .btn-book {

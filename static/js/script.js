@@ -80,7 +80,15 @@ document.addEventListener('DOMContentLoaded', () => {
     const nextBtn = document.getElementById('menu-next');
 
     if (menuSlider && prevBtn && nextBtn) {
-        const scrollAmount = 432; // card (400) + gap (32)
+        const getScrollAmount = () => {
+            const card = menuSlider.querySelector('.menu-card');
+            if (card) {
+                const style = window.getComputedStyle(menuSlider);
+                const gap = parseInt(style.gap) || 0;
+                return card.offsetWidth + gap;
+            }
+            return 432; // fallback
+        };
 
         const updateButtons = () => {
             const scrollLeft = menuSlider.scrollLeft;
@@ -96,12 +104,12 @@ document.addEventListener('DOMContentLoaded', () => {
         };
 
         nextBtn.addEventListener('click', () => {
-            menuSlider.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+            menuSlider.scrollBy({ left: getScrollAmount(), behavior: 'smooth' });
             setTimeout(updateButtons, 500);
         });
 
         prevBtn.addEventListener('click', () => {
-            menuSlider.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
+            menuSlider.scrollBy({ left: -getScrollAmount(), behavior: 'smooth' });
             setTimeout(updateButtons, 500);
         });
 
