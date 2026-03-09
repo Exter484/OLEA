@@ -150,8 +150,8 @@
             <li><a href="{{ url_for('index') }}">View Site</a></li>
             <li>
                 <a href="{{ url_for('admin') }}">Notifications
-                    <span class="notification-badge"
-                        style="display: {{ 'inline-block' if unread_count > 0 else 'none' }};">{{ unread_count }}</span>
+                    <span class="notification-badge" id="nav-unread-badge" style="display: inline-block;">{{
+                        unread_count }}</span>
                 </a>
             </li>
         </ul>
@@ -340,7 +340,36 @@
         let currentUnread = {{ unread_count }};
         let currentTotal = {{ total_count }};
 
+        function playNotificationSound() {
+            try {
+                const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                if (audioCtx.state === 'suspended') audioCtx.resume();
+
+                const oscillator = audioCtx.createOscillator();
+                const gainNode = audioCtx.createGain();
+
+                oscillator.connect(gainNode);
+                gainNode.connect(audioCtx.destination);
+
+                oscillator.type = 'sine';
+
+                // Play a friendly ding-ding sound
+                oscillator.frequency.setValueAtTime(880, audioCtx.currentTime); // A5 note
+
+                // Volume envelope
+                gainNode.gain.setValueAtTime(0, audioCtx.currentTime);
+                gainNode.gain.linearRampToValueAtTime(0.5, audioCtx.currentTime + 0.05);
+                gainNode.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.6);
+
+                oscillator.start(audioCtx.currentTime);
+                oscillator.stop(audioCtx.currentTime + 0.6);
+            } catch (e) {
+                console.warn("Audio play failed:", e);
+            }
+        }
+
         function showToast(message) {
+            playNotificationSound();
             const container = document.getElementById('toast-container');
             const toast = document.createElement('div');
             toast.className = 'toast';
@@ -376,7 +405,7 @@
                     // Update UI elements
                     if (unreadBadge) {
                         unreadBadge.textContent = data.unread_count;
-                        unreadBadge.style.display = data.unread_count > 0 ? 'inline-block' : 'none';
+                        unreadBadge.style.display = 'inline-block';
                     }
 
                     if (markReadForm) {
