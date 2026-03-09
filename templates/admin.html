@@ -240,7 +240,7 @@
                 <table class="schedule-grid">
                     <thead>
                         <tr>
-                            <th>Table \ Time</th>
+                            <th>Table \\ Time</th>
                             {% for t in times %}
                             <th style="text-align: center;">{{ t }}</th>
                             {% endfor %}
@@ -251,7 +251,8 @@
                         <tr>
                             <td><strong>{{ table }}</strong></td>
                             {% for t in times %}
-                            <td style="text-align: center; padding: 10px;">
+                            <td class="schedule-cell" data-table="{{ table }}" data-time="{{ t }}"
+                                style="text-align: center; padding: 10px;">
                                 {% if schedule[table][t] %}
                                 <div
                                     style="background: #ff4d4d; color: white; padding: 5px; border-radius: 4px; font-size: 0.75rem;">
@@ -390,7 +391,8 @@
         }
 
         function checkStatus() {
-            fetch("{{ url_for('admin_api_status') }}?t=" + new Date().getTime(), { cache: "no-store" })
+            const selectedDate = document.querySelector('input[name="date"]').value;
+            fetch("{{ url_for('admin_api_status') }}?date=" + selectedDate + "&t=" + new Date().getTime(), { cache: "no-store" })
                 .then(res => res.json())
                 .then(data => {
                     const unreadBadge = document.querySelector('.notification-badge');
@@ -402,7 +404,7 @@
                         showToast(`You have ${data.unread_count - currentUnread} new unread reservation(s).`);
                     }
 
-                    // Update UI elements
+                    // Update Count UI elements
                     if (unreadBadge) {
                         unreadBadge.textContent = data.unread_count;
                         unreadBadge.style.display = 'inline-block';
@@ -415,6 +417,27 @@
                     if (unreadStat) unreadStat.textContent = data.unread_count;
                     if (totalStat) totalStat.textContent = data.total_count;
 
+                    // Update Visual Schedule elements
+                    if (data.schedule) {
+                        const cells = document.querySelectorAll('.schedule-cell');
+                        cells.forEach(cell => {
+                            const tableName = cell.getAttribute('data-table');
+                            const timeSlot = cell.getAttribute('data-time');
+
+                            if (data.schedule[tableName] && data.schedule[tableName][timeSlot]) {
+                                cell.innerHTML = `
+                                    <div style="background: #ff4d4d; color: white; padding: 5px; border-radius: 4px; font-size: 0.75rem; animation: pulse 1s;">
+                                        BOOKED
+                                    </div>`;
+                            } else {
+                                cell.innerHTML = `
+                                    <div style="background: rgba(255,255,255,0.05); color: #888; padding: 5px; border-radius: 4px; font-size: 0.75rem;">
+                                        FREE
+                                    </div>`;
+                            }
+                        });
+                    }
+
                     currentUnread = data.unread_count;
                     currentTotal = data.total_count;
                 })
@@ -423,6 +446,22 @@
 
         setInterval(checkStatus, 5000); // Check every 5 seconds for snappier experience during testing
     </script>
+    <style>
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.05);
+                box-shadow: 0 0 10px rgba(255, 77, 77, 0.5);
+            }
+
+            100% {
+                transform: scale(1);
+            }
+        }
+    </style>
 </body>
 
 </html>

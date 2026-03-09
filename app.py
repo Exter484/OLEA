@@ -322,11 +322,30 @@ def admin():
 @app.route('/admin/api/status')
 @login_required
 def admin_api_status():
+    selected_date = request.args.get('date', get_thailand_today().strftime('%Y-%m-%d'))
     total_count = Reservation.query.count()
     unread_count = Reservation.query.filter_by(is_read=False).count()
+    
+    # Organize data for the schedule grid
+    tables = ["Table 1", "Table 2", "Table 3", "Table 4", "Table 5", "Table 6", "Table 7", "Table 8", "Meeting Room"]
+    times = ["17:00", "18:00", "19:00", "20:00", "21:00", "22:00"]
+    
+    # Grid structure: { table: { time: is_booked } }
+    schedule = {table: {time: False for time in times} for table in tables}
+    
+    # Fill grid with actual reservations for the selected date
+    day_reservations = Reservation.query.filter_by(date=selected_date).all()
+    for res in day_reservations:
+        if res.table_number in schedule:
+            for slot_time in times:
+                # Check if this specific slot time falls within the reservation range
+                if res.time <= slot_time < res.end_time:
+                    schedule[res.table_number][slot_time] = True
+                    
     return jsonify({
         "total_count": total_count,
-        "unread_count": unread_count
+        "unread_count": unread_count,
+        "schedule": schedule
     })
 
 if __name__ == '__main__':
