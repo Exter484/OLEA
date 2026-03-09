@@ -150,9 +150,8 @@
             <li><a href="{{ url_for('index') }}">View Site</a></li>
             <li>
                 <a href="{{ url_for('admin') }}">Notifications
-                    {% if unread_count > 0 %}
-                    <span class="notification-badge">{{ unread_count }}</span>
-                    {% endif %}
+                    <span class="notification-badge"
+                        style="display: {{ 'inline-block' if unread_count > 0 else 'none' }};">{{ unread_count }}</span>
                 </a>
             </li>
         </ul>
@@ -178,14 +177,12 @@
                     <i class="fas fa-bell" style="color: #ff4d4d;"></i>
                     <span>New Unread: <strong>{{ unread_count }}</strong></span>
                 </div>
-                {% if unread_count > 0 %}
-                <form action="{{ url_for('mark_all_read') }}" method="POST" style="margin-left: auto;">
+                <form id="mark-read-form" action="{{ url_for('mark_all_read') }}" method="POST"
+                    style="margin-left: auto; display: {{ 'block' if unread_count > 0 else 'none' }};">
                     <button type="submit" class="btn-book"
                         style="background: transparent; border: 1px solid var(--glass-border); padding: 8px 15px;">Mark
-                        All
-                        Read</button>
+                        All Read</button>
                 </form>
-                {% endif %}
             </div>
 
             <!-- Admin Quick Book Form -->
@@ -364,12 +361,13 @@
         }
 
         function checkStatus() {
-            fetch("{{ url_for('admin_api_status') }}")
+            fetch("{{ url_for('admin_api_status') }}?t=" + new Date().getTime(), { cache: "no-store" })
                 .then(res => res.json())
                 .then(data => {
                     const unreadBadge = document.querySelector('.notification-badge');
                     const unreadStat = document.querySelector('.stat-badge i.fa-bell + span strong');
                     const totalStat = document.querySelector('.stat-badge i.fa-calendar-check + span strong');
+                    const markReadForm = document.getElementById('mark-read-form');
 
                     if (data.unread_count > currentUnread) {
                         showToast(`You have ${data.unread_count - currentUnread} new unread reservation(s).`);
@@ -379,8 +377,10 @@
                     if (unreadBadge) {
                         unreadBadge.textContent = data.unread_count;
                         unreadBadge.style.display = data.unread_count > 0 ? 'inline-block' : 'none';
-                    } else if (data.unread_count > 0) {
-                        // If badge didn't exist, we'd need to recreate it, but it's easier to just have it always in DOM
+                    }
+
+                    if (markReadForm) {
+                        markReadForm.style.display = data.unread_count > 0 ? 'block' : 'none';
                     }
 
                     if (unreadStat) unreadStat.textContent = data.unread_count;
@@ -392,7 +392,7 @@
                 .catch(err => console.error("Status check failed:", err));
         }
 
-        setInterval(checkStatus, 15000); // Check every 15 seconds
+        setInterval(checkStatus, 5000); // Check every 5 seconds for snappier experience during testing
     </script>
 </body>
 
