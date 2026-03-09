@@ -319,5 +319,15 @@ def admin():
                          total_count=total_count,
                          unread_count=unread_count)
 
+@app.route('/admin/api/status')
+@login_required
+def admin_api_status():
+    total_count = Reservation.query.count()
+    unread_count = Reservation.query.filter_by(is_read=False).count()
+    return jsonify({
+        "total_count": total_count,
+        "unread_count": unread_count
+    })
+
 if __name__ == '__main__':
     app.run(debug=True)

@@ -90,6 +90,41 @@
             position: relative;
             top: -2px;
         }
+
+        /* Toast Notifications */
+        #toast-container {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 9999;
+        }
+
+        .toast {
+            background: #2e3b1c;
+            /* Darker olive */
+            color: white;
+            padding: 1rem 1.5rem;
+            border-radius: 8px;
+            border-left: 5px solid var(--primary-color);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            margin-top: 10px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            animation: slideInRight 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        @keyframes slideInRight {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
     </style>
 </head>
 
@@ -123,6 +158,8 @@
         </ul>
         <a href="{{ url_for('logout') }}" class="btn-book">Logout</a>
     </nav>
+
+    <div id="toast-container"></div>
 
     <div class="container admin-section">
         <section>
@@ -301,6 +338,62 @@
     </footer>
 
     <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+    <script>
+        // Real-time Status Polling
+        let currentUnread = {{ unread_count }};
+        let currentTotal = {{ total_count }};
+
+        function showToast(message) {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            toast.className = 'toast';
+            toast.innerHTML = `
+                <i class="fas fa-bell"></i>
+                <div>
+                    <strong>New Booking!</strong><br>
+                    ${message}
+                    <a href="javascript:location.reload()" style="color: var(--primary-color); margin-left: 10px; font-weight: 700; text-decoration: none;">View Now</a>
+                </div>
+            `;
+            container.appendChild(toast);
+            setTimeout(() => {
+                toast.style.opacity = '0';
+                toast.style.transform = 'translateY(20px)';
+                setTimeout(() => toast.remove(), 500);
+            }, 8000);
+        }
+
+        function checkStatus() {
+            fetch("{{ url_for('admin_api_status') }}")
+                .then(res => res.json())
+                .then(data => {
+                    const unreadBadge = document.querySelector('.notification-badge');
+                    const unreadStat = document.querySelector('.stat-badge i.fa-bell + span strong');
+                    const totalStat = document.querySelector('.stat-badge i.fa-calendar-check + span strong');
+
+                    if (data.unread_count > currentUnread) {
+                        showToast(`You have ${data.unread_count - currentUnread} new unread reservation(s).`);
+                    }
+
+                    // Update UI elements
+                    if (unreadBadge) {
+                        unreadBadge.textContent = data.unread_count;
+                        unreadBadge.style.display = data.unread_count > 0 ? 'inline-block' : 'none';
+                    } else if (data.unread_count > 0) {
+                        // If badge didn't exist, we'd need to recreate it, but it's easier to just have it always in DOM
+                    }
+
+                    if (unreadStat) unreadStat.textContent = data.unread_count;
+                    if (totalStat) totalStat.textContent = data.total_count;
+
+                    currentUnread = data.unread_count;
+                    currentTotal = data.total_count;
+                })
+                .catch(err => console.error("Status check failed:", err));
+        }
+
+        setInterval(checkStatus, 15000); // Check every 15 seconds
+    </script>
 </body>
 
 </html>
