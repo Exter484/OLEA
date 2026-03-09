@@ -54,6 +54,42 @@
             font-size: 0.9rem;
             max-width: 300px;
         }
+
+        .unread-row {
+            background: rgba(85, 107, 47, 0.1) !important;
+            border-left: 4px solid var(--primary-color) !important;
+        }
+
+        .unread-indicator {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            background: var(--primary-color);
+            border-radius: 50%;
+            margin-right: 5px;
+        }
+
+        .stat-badge {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 8px 15px;
+            border-radius: 8px;
+            border: 1px solid var(--glass-border);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .notification-badge {
+            background: #ff4d4d;
+            color: white;
+            padding: 2px 8px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            margin-left: 5px;
+            position: relative;
+            top: -2px;
+        }
     </style>
 </head>
 
@@ -77,6 +113,13 @@
         </div>
         <ul class="nav-links">
             <li><a href="{{ url_for('index') }}">View Site</a></li>
+            <li>
+                <a href="{{ url_for('admin') }}">Notifications
+                    {% if unread_count > 0 %}
+                    <span class="notification-badge">{{ unread_count }}</span>
+                    {% endif %}
+                </a>
+            </li>
         </ul>
         <a href="{{ url_for('logout') }}" class="btn-book">Logout</a>
     </nav>
@@ -86,6 +129,26 @@
             <div class="section-title">
                 <span>Management</span>
                 <h2>Reservations Log</h2>
+            </div>
+
+            <!-- Stats Bar -->
+            <div style="display: flex; gap: 1rem; margin-bottom: 2rem;">
+                <div class="stat-badge">
+                    <i class="fas fa-calendar-check" style="color: var(--primary-color);"></i>
+                    <span>Total Reservations: <strong>{{ total_count }}</strong></span>
+                </div>
+                <div class="stat-badge">
+                    <i class="fas fa-bell" style="color: #ff4d4d;"></i>
+                    <span>New Unread: <strong>{{ unread_count }}</strong></span>
+                </div>
+                {% if unread_count > 0 %}
+                <form action="{{ url_for('mark_all_read') }}" method="POST" style="margin-left: auto;">
+                    <button type="submit" class="btn-book"
+                        style="background: transparent; border: 1px solid var(--glass-border); padding: 8px 15px;">Mark
+                        All
+                        Read</button>
+                </form>
+                {% endif %}
             </div>
 
             <!-- Admin Quick Book Form -->
@@ -193,9 +256,11 @@
                     <tbody>
                         {% if reservations %}
                         {% for res in reservations %}
-                        <tr>
-                            <td style="font-size: 0.8rem; color: var(--text-muted);">{{
-                                res.created_at.strftime('%d/%m/%Y %H:%M') }}</td>
+                        <tr class="{{ 'unread-row' if not res.is_read else '' }}">
+                            <td style="font-size: 0.8rem; color: var(--text-muted);">
+                                {% if not res.is_read %}<span class="unread-indicator"></span>{% endif %}
+                                {{ res.created_at.strftime('%d/%m/%Y %H:%M') }}
+                            </td>
                             <td><strong>{{ res.name }}</strong></td>
                             <td style="color: var(--text-muted); font-size: 0.9rem;">{{ res.phone }}</td>
                             <td>{{ res.date }}</td>

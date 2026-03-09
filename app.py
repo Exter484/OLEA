@@ -50,9 +50,10 @@ class Reservation(db.Model):
     table_number = db.Column(db.String(20), nullable=False)
     phone = db.Column(db.String(20), nullable=False)
     message = db.Column(db.Text)
+    is_read = db.Column(db.Boolean, default=False)
     created_at = db.Column(db.DateTime, default=get_thailand_now)
 
-    def __init__(self, name, email, phone, date, time, guests, table_number, duration=1, message=None):
+    def __init__(self, name, email, phone, date, time, guests, table_number, duration=1, message=None, is_read=False):
         self.name = name
         self.email = email
         self.phone = phone
@@ -62,6 +63,7 @@ class Reservation(db.Model):
         self.guests = guests
         self.table_number = table_number
         self.message = message
+        self.is_read = is_read
         
         # Calculate end_time
         try:
@@ -187,7 +189,8 @@ def admin_reserve():
             time=time,
             duration=duration,
             guests=guests,
-            table_number=table_number
+            table_number=table_number,
+            is_read=True # Admin bookings are read by default
         )
         db.session.add(new_reservation)
         db.session.commit()
@@ -219,6 +222,17 @@ def admin_cancel(reservation_id):
         print(f"[DEBUG] EXCEPTION during cancellation: {str(e)}")
         flash(f'เกิดข้อผิดพลาดในการยกเลิก: {str(e)}', 'error')
     
+    return redirect(url_for('admin'))
+
+@app.route('/admin/mark_all_read', methods=['POST'])
+@login_required
+def mark_all_read():
+    try:
+        Reservation.query.filter_by(is_read=False).update(dict(is_read=True))
+        db.session.commit()
+    except Exception as e:
+        db.session.rollback()
+        flash(f'Error: {str(e)}', 'error')
     return redirect(url_for('admin'))
 
 @app.route('/reserve', methods=['POST'])
@@ -276,6 +290,10 @@ def admin():
     selected_date = request.args.get('date', get_thailand_today().strftime('%Y-%m-%d'))
     reservations = Reservation.query.order_by(Reservation.created_at.desc()).all()
     
+    # Counts
+    total_count = Reservation.query.count()
+    unread_count = Reservation.query.filter_by(is_read=False).count()
+    
     # Organize data for the schedule grid
     tables = ["Table 1", "Table 2", "Table 3", "Table 4", "Table 5", "Table 6", "Table 7", "Table 8", "Meeting Room"]
     times = ["17:00", "18:00", "19:00", "20:00", "21:00", "22:00"]
@@ -297,7 +315,9 @@ def admin():
                          schedule=schedule, 
                          tables=tables, 
                          times=times,
-                         selected_date=selected_date)
+                         selected_date=selected_date,
+                         total_count=total_count,
+                         unread_count=unread_count)
 
 if __name__ == '__main__':
     app.run(debug=True)
